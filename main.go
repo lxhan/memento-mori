@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/joho/godotenv"
 	"gopkg.in/telebot.v3"
 )
 
@@ -29,11 +28,6 @@ func calculateDaysLeft() int {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("error loading environment variables")
-	}
-
 	chatId, err := strconv.ParseInt(os.Getenv("CHAT_ID"), 10, 64)
 	token := os.Getenv("TELEGRAM_TOKEN")
 	if err != nil {

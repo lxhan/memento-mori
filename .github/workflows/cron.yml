@@ -14,11 +14,12 @@ jobs:
       name: production
 
     steps:
-      - name: test env
-        run: echo "ENV ${{ secrets.BIRTH_DATE }}"
-
       - name: checkout
         uses: actions/checkout@v2
 
       - name: go run
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          BIRTH_DATE: ${{ secrets.BIRTH_DATE }}
+          CHAT_ID: ${{ secrets.CHAT_ID}}
         run: go run main.go
