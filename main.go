@@ -53,6 +53,4 @@ func main() {
 	bot.Send(chat, fmt.Sprintf("You have *%d* days left", daysLeft), &telebot.SendOptions{
 		ParseMode: telebot.ModeMarkdownV2,
 	})
-
-	bot.Start()
 }
