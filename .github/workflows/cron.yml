@@ -1,6 +1,9 @@
 name: cron
 
 on:
+  push:
+    branches:
+      - "main"
   schedule:
     - cron: "*/10 * * * *"
 
