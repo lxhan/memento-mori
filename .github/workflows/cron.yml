@@ -22,4 +22,4 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           BIRTH_DATE: ${{ secrets.BIRTH_DATE }}
           CHAT_ID: ${{ secrets.CHAT_ID}}
-        run: go run main.go
+        run: go run cmd/bot/main.go
