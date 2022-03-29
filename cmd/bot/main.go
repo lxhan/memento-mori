@@ -23,7 +23,7 @@ func calculateDaysLeft() int {
 	parsedBirthDate := parseDate(birthDate.Year(), int(birthDate.Month()), birthDate.Day())
 	deathDate := parsedBirthDate.AddDate(80, 0, 0)
 	parsedDeathDate := parseDate(deathDate.Year(), int(deathDate.Month()), deathDate.Day())
-	diff := parsedDeathDate.Sub(parsedBirthDate).Hours() / 24
+	diff := parsedDeathDate.Sub(time.Now()).Hours() / 24
 	return int(diff)
 }
 
