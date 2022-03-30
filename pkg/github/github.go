@@ -54,12 +54,12 @@ type GithubEvent struct {
 	CreatedAt string   `json:"created_at"`
 }
 
-func GetTodayPushEvents(user string, limit int) ([]GithubEvent, error) {
+func GetLastPushEvents(user string) ([]GithubEvent, error) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/users/%s/events/public?per_page=%d", user, limit), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/users/%s/events/public", user), nil)
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
 	}
@@ -75,9 +75,20 @@ func GetTodayPushEvents(user string, limit int) ([]GithubEvent, error) {
 	decoder := json.NewDecoder(res.Body)
 
 	err = decoder.Decode(&jsonData)
-
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
 	}
-	return jsonData, nil
+
+	var pushEvents []GithubEvent
+	yesterday := time.Now().AddDate(0, 0, -2)
+	for i := 0; i < len(jsonData); i++ {
+		createdAt, err := time.Parse(time.RFC3339, jsonData[i].CreatedAt)
+		if err != nil {
+			return nil, fmt.Errorf(err.Error())
+		}
+		if jsonData[i].Type == "PushEvent" && createdAt.After(yesterday) {
+			pushEvents = append(pushEvents, jsonData[i])
+		}
+	}
+	return pushEvents, nil
 }

@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	github "memento-mori/pkg/github"
+
 	"gopkg.in/telebot.v3"
 )
 
@@ -48,9 +50,15 @@ func main() {
 
 	chat := &telebot.Chat{ID: chatId}
 	daysLeft := calculateDaysLeft()
-	fmt.Println(daysLeft)
 
-	bot.Send(chat, fmt.Sprintf("You have *%d* days left", daysLeft), &telebot.SendOptions{
+	events, err := github.GetLastPushEvents(os.Getenv("USER"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// TODO: sending only number of push events for now, send more data later
+	bot.Send(chat, fmt.Sprintf("☠️ You have *%d* days left\n💻 You made *%d* pushes to github yesterday", daysLeft, len(events)), &telebot.SendOptions{
 		ParseMode: telebot.ModeMarkdownV2,
 	})
+
 }
