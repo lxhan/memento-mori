@@ -22,5 +22,5 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           BIRTH_DATE: ${{ secrets.BIRTH_DATE }}
           CHAT_ID: ${{ secrets.CHAT_ID}}
-          USER: ${GITHUB_ACTOR}
+          USER: lxhan
         run: go run cmd/bot/main.go
