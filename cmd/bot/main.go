@@ -17,8 +17,7 @@ func parseDate(year, month, day int) time.Time {
 }
 
 func calculateDaysLeft() int {
-	layout := "2006-01-02T15:04:05.000Z"
-	birthDate, err := time.Parse(layout, os.Getenv("BIRTH_DATE"))
+	birthDate, err := time.Parse(time.RFC3339, os.Getenv("BIRTH_DATE"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -57,7 +56,7 @@ func main() {
 	}
 
 	// TODO: sending only number of push events for now, send more data later
-	bot.Send(chat, fmt.Sprintf("☠️ You have *%d* days left\n💻 You made *%d* pushes to github yesterday", daysLeft, len(events)), &telebot.SendOptions{
+	bot.Send(chat, fmt.Sprintf("☠️ You have *%d* days left\n👨🏻‍💻 You made *%d* pushes to github yesterday", daysLeft, len(events)), &telebot.SendOptions{
 		ParseMode: telebot.ModeMarkdownV2,
 	})
 

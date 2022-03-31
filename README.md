@@ -5,4 +5,4 @@
 Sending every morning:
 
 - [x] Approximate number of days left in my life
-- [x] Number of github commits I made yesterday
+- [x] Number of github pushes I made yesterday
