@@ -3,13 +3,13 @@ name: cron
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   schedule:
-    - cron: "0 22 * * *"
+    - cron: '0 22 * * *'
 
 jobs:
   send:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment:
       name: production
 
@@ -23,4 +23,4 @@ jobs:
           BIRTH_DATE: ${{ secrets.BIRTH_DATE }}
           CHAT_ID: ${{ secrets.CHAT_ID}}
           USER: lxhan
-        run: go run cmd/bot/main.go
+        run: go run .

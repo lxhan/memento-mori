@@ -1,11 +1,4 @@
-package github
-
-import (
-	"encoding/json"
-	"fmt"
-	"net/http"
-	"time"
-)
+package main
 
 type Actor struct {
 	Id           int    `json:"id"`
@@ -52,43 +45,4 @@ type GithubEvent struct {
 	Commits   []Commit `json:"commits"`
 	Public    bool     `json:"public"`
 	CreatedAt string   `json:"created_at"`
-}
-
-func GetLastPushEvents(user string) ([]GithubEvent, error) {
-	client := &http.Client{
-		Timeout: 10 * time.Second,
-	}
-
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/users/%s/events/public", user), nil)
-	if err != nil {
-		return nil, fmt.Errorf(err.Error())
-	}
-	req.Header.Add("Accept", "application/vnd.github.v3+json")
-
-	res, err := client.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf(err.Error())
-	}
-	defer res.Body.Close()
-
-	var jsonData []GithubEvent
-	decoder := json.NewDecoder(res.Body)
-
-	err = decoder.Decode(&jsonData)
-	if err != nil {
-		return nil, fmt.Errorf(err.Error())
-	}
-
-	var pushEvents []GithubEvent
-	yesterday := time.Now().AddDate(0, 0, -2)
-	for i := 0; i < len(jsonData); i++ {
-		createdAt, err := time.Parse(time.RFC3339, jsonData[i].CreatedAt)
-		if err != nil {
-			return nil, fmt.Errorf(err.Error())
-		}
-		if jsonData[i].Type == "PushEvent" && createdAt.After(yesterday) {
-			pushEvents = append(pushEvents, jsonData[i])
-		}
-	}
-	return pushEvents, nil
 }

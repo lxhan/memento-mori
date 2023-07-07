@@ -20,3 +20,5 @@ go.work
 
 # misc
 .env
+credentials.json
+token.json
